@@ -1,11 +1,14 @@
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class LRUCache {
-    private final Map<Integer, Object> map = new HashMap<>();
+    private final LinkedHashMap<Integer, Object> map;
+    private final int capacity;
 
-    public LRUCache(int i) {
-        if (i <= 0) throw new IllegalArgumentException();
+    public LRUCache(int size) {
+        if (size <= 0) throw new IllegalArgumentException();
+        this.capacity = size;
+        this.map = new LinkedHashMap<Integer, Object>(size, 0.75f, true);
     }
 
     public int put(Object obj) {
@@ -15,8 +18,8 @@ public class LRUCache {
     }
 
     public Object get(int hash) {
-        if (!map.containsKey(hash))
-            throw new IllegalArgumentException();
-        return map.get(hash);
+        Object val = map.get(hash);
+        if (val == null) throw new IllegalStateException();
+        return val;
     }
 }

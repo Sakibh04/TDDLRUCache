@@ -58,4 +58,17 @@ public class LRUCacheTest {
             cache.get(99999);
         });
     }
+
+    // Test 6: Put same object twice updates recentness
+    @Test
+    void putSameObjectTwiceUpdatesRecentness() {
+        Object obj = "TestObject";
+        int hash1 = cache.put(obj);
+        int hash2 = cache.put(obj);
+        assertEquals(hash1, hash2);
+        assertEquals(obj, cache.get(hash1));
+    }
+
 }
+
+
