@@ -1,9 +1,17 @@
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class LRUCacheTest {
+    private LRUCache cache;
+
+    @BeforeEach
+    void setUp() {
+        // Common setup - each test gets a fresh cache
+        cache = new LRUCache(3);
+    }
+
     // Test 1: Constructor with valid size creates cache
     @Test
     void constructorWithValidSizeCreatesCache() {
@@ -23,6 +31,31 @@ public class LRUCacheTest {
     void constructorWithNegativeSizeThrowsException() {
         assertThrows(IllegalArgumentException.class, () -> {
             new LRUCache(-1);
+        });
+    }
+
+    // Test 3: Put returns hash code of added object
+    @Test
+    void putReturnsHashCodeOfAddedObject() {
+        Object obj = new Object();
+        int hash = cache.put(obj);
+        assertEquals(obj.hashCode(), hash);
+    }
+
+    // Test 4: Get retrieves object by hash code
+    @Test
+    void getRetrievesObjectByHashCode() {
+        Object obj = "TestString";
+        int hash = cache.put(obj);
+        Object retrieved = cache.get(hash);
+        assertEquals(obj, retrieved);
+    }
+
+    // Test 5: Get throws exception for non-existent hash
+    @Test
+    void getThrowsExceptionForNonExistentHash() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            cache.get(99999);
         });
     }
 }
