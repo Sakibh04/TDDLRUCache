@@ -8,7 +8,12 @@ public class LRUCache {
     public LRUCache(int size) {
         if (size <= 0) throw new IllegalArgumentException();
         this.capacity = size;
-        this.map = new LinkedHashMap<Integer, Object>(size, 0.75f, true);
+        this.map = new LinkedHashMap<Integer, Object>(size, 0.75f, true) {
+            @Override
+            protected boolean removeEldestEntry(Map.Entry<Integer, Object> eldest) {
+                return size() > LRUCache.this.capacity;
+            }
+        };
     }
 
     public int put(Object obj) {
@@ -19,7 +24,9 @@ public class LRUCache {
 
     public Object get(int hash) {
         Object val = map.get(hash);
-        if (val == null) throw new IllegalStateException();
+        if (val == null) {
+            throw new IllegalArgumentException("No such hash in cache");
+        }
         return val;
     }
 }
