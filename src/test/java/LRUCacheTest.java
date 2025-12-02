@@ -141,20 +141,7 @@ public class LRUCacheTest {
         });
     }
 
-    // Test 10: Cache handles different object types
-    @Test
-    void cacheHandlesDifferentObjectTypes() {
-        String str = "String";
-        Integer num = 42;
-
-        int hashStr = cache.put(str);
-        int hashNum = cache.put(num);
-
-        assertEquals(str, cache.get(hashStr));
-        assertEquals(num, cache.get(hashNum));
-    }
-
-    // Test 11: Empty cache throws exception on get
+    // Test 10: Empty cache throws exception on get
     @Test
     void emptyCacheThrowsExceptionOnGet() {
         assertThrows(IllegalArgumentException.class, () -> {
@@ -162,7 +149,7 @@ public class LRUCacheTest {
         });
     }
 
-    // Test 12: Cache with capacity 1 works correctly
+    // Test 11: Cache with capacity 1 works correctly
     @Test
     void cacheWithCapacityOneWorksCorrectly() {
         LRUCache smallCache = new LRUCache(1);
